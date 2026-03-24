@@ -1,6 +1,7 @@
 package com.exam.MinhLong_1773.config;
 
 import com.exam.MinhLong_1773.service.CustomUserDetailsService;
+import com.exam.MinhLong_1773.service.GoogleOAuth2UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -19,11 +20,15 @@ public class SecurityConfig {
     }
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(
+            HttpSecurity http,
+            GoogleOAuth2UserService googleOAuth2UserService
+    ) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
-                        .requestMatchers("/", "/home", "/register", "/login", "/courses").permitAll()
+                    .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
+                    .requestMatchers("/", "/home", "/register", "/login", "/courses").permitAll()
+                    .requestMatchers("/oauth2/**", "/login/oauth2/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/enroll/**").hasRole("PATIENT")
                         .anyRequest().authenticated()
@@ -34,6 +39,13 @@ public class SecurityConfig {
                         .defaultSuccessUrl("/home", true)
                         .permitAll()
                 )
+                    .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/login")
+                        .userInfoEndpoint(userInfo -> userInfo
+                            .userService(googleOAuth2UserService)
+                        )
+                        .defaultSuccessUrl("/home", true)
+                    )
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()

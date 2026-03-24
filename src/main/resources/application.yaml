@@ -1,6 +1,8 @@
 server:
   port: 8081
 spring:
+  config:
+    import: optional:file:./application-secret.yaml
   datasource:
     url: jdbc:sqlserver://localhost:1433;databaseName=clinic_appointment_db;encrypt=true;trustServerCertificate=true
     username: sa
