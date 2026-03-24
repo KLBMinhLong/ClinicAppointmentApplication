@@ -18,13 +18,20 @@
     <a th:href="@{/home}">Home</a>
     <a th:href="@{/courses}">Courses</a>
     <a th:href="@{/enroll}">Enroll</a>
-    <a th:href="@{/admin/doctors}">Admin CRUD Bac Si</a>
+    <a th:if="${isPatient}" th:href="@{/enroll/my-appointments}">My Appointments</a>
+    <a th:if="${isAdmin}" th:href="@{/admin/doctors}">Admin CRUD Bac Si</a>
     <a th:if="${!isAuthenticated}" th:href="@{/register}">Dang ky</a>
     <a th:if="${!isAuthenticated}" th:href="@{/login}">Dang nhap</a>
     <form th:if="${isAuthenticated}" th:action="@{/logout}" method="post">
         <button type="submit">Dang xuat</button>
     </form>
 </div>
+
+<form class="search-bar" th:action="@{/home}" method="get">
+    <input type="text" name="keyword" th:value="${keyword}" placeholder="Tim theo ten bac si">
+    <button type="submit">Tim kiem</button>
+    <a th:if="${keyword != null and !keyword.isEmpty()}" th:href="@{/home}">Xoa loc</a>
+</form>
 
 <table>
     <thead>
@@ -33,11 +40,12 @@
         <th>Chuyen khoa</th>
         <th>Khoa</th>
         <th>Hinh anh</th>
+        <th th:if="${isPatient}">Dat lich</th>
     </tr>
     </thead>
     <tbody>
     <tr th:if="${#lists.isEmpty(doctors)}">
-        <td colspan="4">Chua co du lieu bac si.</td>
+        <td th:attr="colspan=${isPatient} ? 5 : 4">Chua co du lieu bac si.</td>
     </tr>
     <tr th:each="doctor : ${doctors}">
         <td th:text="${doctor.name}">Ten bac si</td>
@@ -50,14 +58,17 @@
                  width="100" height="100">
             <span th:if="${doctor.image == null or doctor.image.isEmpty()}">Khong co anh</span>
         </td>
+        <td th:if="${isPatient}">
+            <a th:href="@{/enroll/create(doctorId=${doctor.id})}">Dat lich</a>
+        </td>
     </tr>
     </tbody>
 </table>
 
 <div class="pagination">
-    <a th:if="${currentPage > 0}" th:href="@{/home(page=${currentPage - 1})}">Trang truoc</a>
+    <a th:if="${currentPage > 0}" th:href="@{/home(page=${currentPage - 1}, keyword=${keyword})}">Trang truoc</a>
     <span th:if="${totalPages > 0}" th:text="' Trang ' + (${currentPage} + 1) + ' / ' + ${totalPages} + ' '">Trang</span>
-    <a th:if="${currentPage + 1 < totalPages}" th:href="@{/home(page=${currentPage + 1})}">Trang sau</a>
+    <a th:if="${currentPage + 1 < totalPages}" th:href="@{/home(page=${currentPage + 1}, keyword=${keyword})}">Trang sau</a>
 </div>
 </div>
 </body>

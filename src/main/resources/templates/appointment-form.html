@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dat lich kham</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h1>Dat lich kham</h1>
+
+    <div class="nav">
+        <a th:href="@{/home}">Home</a>
+        <a th:href="@{/enroll/my-appointments}">My Appointments</a>
+    </div>
+
+    <p><strong>Bac si:</strong> <span th:text="${doctor.name}">Doctor</span></p>
+    <p><strong>Chuyen khoa:</strong> <span th:text="${doctor.specialty}">Specialty</span></p>
+    <p><strong>Khoa:</strong> <span th:text="${doctor.department.name}">Department</span></p>
+
+    <form th:action="@{/enroll/create(doctorId=${doctorId})}" th:object="${appointmentForm}" method="post">
+        <div class="form-group">
+            <label for="appointmentDate">Ngay kham:</label>
+            <input id="appointmentDate" type="date" th:field="*{appointmentDate}">
+            <div class="error" th:if="${#fields.hasErrors('appointmentDate')}" th:errors="*{appointmentDate}"></div>
+        </div>
+
+        <button type="submit">Xac nhan dat lich</button>
+    </form>
+</div>
+</body>
+</html>

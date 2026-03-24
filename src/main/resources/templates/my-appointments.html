@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Appointments</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h1>My Appointments</h1>
+
+    <div class="nav">
+        <a th:href="@{/home}">Home</a>
+        <a th:href="@{/courses}">Courses</a>
+    </div>
+
+    <p class="message" th:if="${successMessage != null}" th:text="${successMessage}"></p>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Ten bac si</th>
+            <th>Ngay kham</th>
+            <th>Khoa</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(appointments)}">
+            <td colspan="3">Ban chua co lich kham nao.</td>
+        </tr>
+        <tr th:each="appointment : ${appointments}">
+            <td th:text="${appointment.doctor.name}">Ten bac si</td>
+            <td th:text="${#temporals.format(appointment.appointmentDate, 'dd/MM/yyyy')}">Ngay</td>
+            <td th:text="${appointment.doctor.department.name}">Khoa</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

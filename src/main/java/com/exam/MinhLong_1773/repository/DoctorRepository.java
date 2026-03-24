@@ -17,4 +17,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     @Override
     @EntityGraph(attributePaths = "department")
     Page<Doctor> findAll(Pageable pageable);
+
+    @EntityGraph(attributePaths = "department")
+    Page<Doctor> findByNameContainingIgnoreCase(String keyword, Pageable pageable);
 }

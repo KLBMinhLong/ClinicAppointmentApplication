@@ -26,9 +26,16 @@ public class DoctorService {
     }
 
     public Page<Doctor> getDoctorPage(int page, int size) {
+        return getDoctorPage(page, size, null);
+    }
+
+    public Page<Doctor> getDoctorPage(int page, int size, String keyword) {
         int safePage = Math.max(page, 0);
         Pageable pageable = PageRequest.of(safePage, size, Sort.by("name").ascending());
-        return doctorRepository.findAll(pageable);
+        if (keyword == null || keyword.isBlank()) {
+            return doctorRepository.findAll(pageable);
+        }
+        return doctorRepository.findByNameContainingIgnoreCase(keyword.trim(), pageable);
     }
 
     public List<Department> getAllDepartments() {

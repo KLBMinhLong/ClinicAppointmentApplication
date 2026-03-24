@@ -59,6 +59,22 @@ h1 {
     color: #374151;
 }
 
+.search-bar {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.search-bar input {
+    max-width: 320px;
+}
+
+.search-bar a {
+    color: #0f4c81;
+    text-decoration: none;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;

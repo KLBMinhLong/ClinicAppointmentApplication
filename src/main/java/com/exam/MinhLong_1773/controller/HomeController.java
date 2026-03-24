@@ -22,14 +22,16 @@ public class HomeController {
     @GetMapping({"/", "/home"})
     public String home(
             @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "keyword", required = false) String keyword,
             Model model
     ) {
-        Page<Doctor> doctorPage = doctorService.getDoctorPage(page, PAGE_SIZE);
+        Page<Doctor> doctorPage = doctorService.getDoctorPage(page, PAGE_SIZE, keyword);
 
         model.addAttribute("doctorPage", doctorPage);
         model.addAttribute("doctors", doctorPage.getContent());
         model.addAttribute("currentPage", doctorPage.getNumber());
         model.addAttribute("totalPages", doctorPage.getTotalPages());
+        model.addAttribute("keyword", keyword == null ? "" : keyword.trim());
 
         return "home";
     }

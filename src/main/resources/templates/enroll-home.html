@@ -12,6 +12,7 @@
 <div class="nav">
     <a th:href="@{/home}">Home</a>
     <a th:href="@{/courses}">Courses</a>
+    <a th:href="@{/enroll/my-appointments}">My Appointments</a>
     <form th:if="${isAuthenticated}" th:action="@{/logout}" method="post">
         <button type="submit">Dang xuat</button>
     </form>
