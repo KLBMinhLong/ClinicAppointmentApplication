@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dang ky tai khoan benh nhan</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+<h1>Dang ky tai khoan benh nhan</h1>
+
+<div class="nav">
+    <a th:href="@{/home}">Home</a>
+    <a th:href="@{/login}">Dang nhap</a>
+</div>
+
+<form th:action="@{/register}" th:object="${registerForm}" method="post">
+    <div class="form-group">
+        <label for="username">Username:</label>
+        <input id="username" type="text" th:field="*{username}">
+        <div class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input id="password" type="password" th:field="*{password}">
+        <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+    </div>
+
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input id="email" type="email" th:field="*{email}">
+        <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+    </div>
+
+    <div>
+        <button type="submit">Dang ky</button>
+    </div>
+</form>
+
+<p>
+    Da co tai khoan? <a th:href="@{/login}">Dang nhap</a>
+</p>
+</div>
+</body>
+</html>

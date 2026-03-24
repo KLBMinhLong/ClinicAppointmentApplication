@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - CRUD Bac Si</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+<h1>Quan ly bac si (ADMIN)</h1>
+
+<div class="nav">
+    <a th:href="@{/admin/doctors/create}">Create Doctor</a>
+    <a th:href="@{/home}">Ve Home</a>
+</div>
+
+<p class="message" th:if="${successMessage != null}" th:text="${successMessage}"></p>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Ten bac si</th>
+        <th>Chuyen khoa</th>
+        <th>Khoa</th>
+        <th>Hinh anh</th>
+        <th>Hanh dong</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${#lists.isEmpty(doctors)}">
+        <td colspan="6">Chua co bac si nao.</td>
+    </tr>
+    <tr th:each="doctor : ${doctors}">
+        <td th:text="${doctor.id}">1</td>
+        <td th:text="${doctor.name}">Ten</td>
+        <td th:text="${doctor.specialty}">Chuyen khoa</td>
+        <td th:text="${doctor.department.name}">Khoa</td>
+        <td>
+            <img th:if="${doctor.image != null and !doctor.image.isEmpty()}"
+                 th:src="${doctor.image}"
+                 th:alt="${doctor.name}"
+                 width="80" height="80">
+            <span th:if="${doctor.image == null or doctor.image.isEmpty()}">Khong co anh</span>
+        </td>
+        <td>
+            <a th:href="@{/admin/doctors/{id}/edit(id=${doctor.id})}">Update</a>
+            <form class="inline" th:action="@{/admin/doctors/{id}/delete(id=${doctor.id})}" method="post">
+                <button type="submit" onclick="return confirm('Ban co chac muon xoa?')">Delete</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="pagination">
+    <a th:if="${currentPage > 0}" th:href="@{/admin/doctors(page=${currentPage - 1})}">Trang truoc</a>
+    <span th:if="${totalPages > 0}" th:text="' Trang ' + (${currentPage} + 1) + ' / ' + ${totalPages} + ' '">Trang</span>
+    <a th:if="${currentPage + 1 < totalPages}" th:href="@{/admin/doctors(page=${currentPage + 1})}">Trang sau</a>
+</div>
+</div>
+</body>
+</html>

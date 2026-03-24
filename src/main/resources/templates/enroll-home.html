@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enroll</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+<h1>Trang enroll</h1>
+<div class="nav">
+    <a th:href="@{/home}">Home</a>
+    <a th:href="@{/courses}">Courses</a>
+    <form th:if="${isAuthenticated}" th:action="@{/logout}" method="post">
+        <button type="submit">Dang xuat</button>
+    </form>
+</div>
+<p>Chi PATIENT moi duoc truy cap duong dan /enroll/**.</p>
+</div>
+</body>
+</html>

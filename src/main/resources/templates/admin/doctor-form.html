@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${formTitle}">Doctor Form</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+<h1 th:text="${formTitle}">Doctor Form</h1>
+
+<div class="nav">
+    <a th:href="@{/admin/doctors}">Ve danh sach bac si</a>
+</div>
+
+<form th:action="${formAction}" th:object="${doctorForm}" method="post">
+    <div class="form-group">
+        <label for="name">Ten bac si:</label>
+        <input id="name" type="text" th:field="*{name}">
+        <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+    </div>
+
+    <div class="form-group">
+        <label for="specialty">Chuyen khoa:</label>
+        <input id="specialty" type="text" th:field="*{specialty}">
+        <div class="error" th:if="${#fields.hasErrors('specialty')}" th:errors="*{specialty}"></div>
+    </div>
+
+    <div class="form-group">
+        <label for="departmentId">Khoa:</label>
+        <select id="departmentId" th:field="*{departmentId}">
+            <option value="">-- Chon khoa --</option>
+            <option th:each="department : ${departments}"
+                    th:value="${department.id}"
+                    th:text="${department.name}">
+            </option>
+        </select>
+        <div class="error" th:if="${#fields.hasErrors('departmentId')}" th:errors="*{departmentId}"></div>
+    </div>
+
+    <div class="form-group">
+        <label for="image">Hinh anh (URL):</label>
+        <input id="image" type="text" th:field="*{image}">
+    </div>
+
+    <div>
+        <button type="submit">Luu</button>
+    </div>
+</form>
+</div>
+</body>
+</html>
